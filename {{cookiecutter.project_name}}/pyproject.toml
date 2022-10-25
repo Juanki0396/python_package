@@ -1,0 +1,52 @@
+[build-system]
+{% if cookiecutter.use_flit == 'y' %}
+requires = ["flit_core"]
+build-backend = "flit_core.buildapi"
+{% else %}
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+{% endif %}
+
+[project]
+name = "{{ cookiecutter.full_name }}"
+authors = {name = "{{ cookiecutter.full_name }}", email = "{{ cookiecutter.email }}"}
+readme = "README.md"
+requires-python = "{{ cookiecutter.min_python_version }}"
+{% if cookiecutter.open_source_license != 'Not open source' %}
+license = {file = "LICENSE"}
+classifiers = ["License :: OSI Approved :: {{ cookiecutter.open_source_license.split(' ').map(lambda x: x.capitalize()).join(' ') }}"]
+{% endif %}
+keywords = ["python"]
+
+dependencies = []
+
+[project.urls]
+Repository = "https://github.com/{{ cookiecutter.github_user }}/{{ cookiecutter.project_slug }}"
+
+[project.optional-dependencies]
+dev = [
+    'tox',
+    'pre-commit',
+    'pip-tools',
+    'isort',
+    {% if cookiecutter.use_black == 'y' %}
+    'black',
+    {% endif %}
+    {% if cookiecutter.use_flit == 'y' %}
+    'flit',
+    {% else %}
+    'build'
+    {% endif %}
+]
+test = [
+    'flake8'
+    'mypy'
+    {% if cookiecutter.use_pytest == 'y' %}
+    'pytest',
+    {% endif %}
+]
+
+{% if cookiecutter.use_black == 'y' %}
+[tool.isort]
+profile = "black"
+{% endif %}
