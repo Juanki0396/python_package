@@ -1,0 +1,14 @@
+# Development dirs
+.venv
+.vscode
+
+#Cache dirs
+.tox
+.pytest_cache
+.mypy_cache
+
+# Build dirs
+dist
+
+# Python files
+__pycache__
